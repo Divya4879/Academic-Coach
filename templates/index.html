@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Grasp Articulate Refine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': {
+                            50: '#f0f4ff',
+                            100: '#e0e9ff',
+                            200: '#c7d6ff',
+                            300: '#a5b8ff',
+                            400: '#8191ff',
+                            500: '#5d6aff',
+                            600: '#4338f5',
+                            700: '#3730e1',
+                            800: '#2d28b6',
+                            900: '#0f0a2e',
+                            950: '#070520'
+                        },
+                        'blue': {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#0f1629',
+                            950: '#050b1a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #050b1a 0%, #0f1629 25%, #070520 50%, #0f0a2e 75%, #1e1b4b 100%);
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-image-placeholder {
+            background: linear-gradient(135deg, #1e40af 0%, #3730e1 50%, #4338f5 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .pulse-recording {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .celebration-content {
+            text-align: center;
+            color: white;
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .content-section {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .content-section::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        .content-section::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        
+        .content-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .grade-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin: 0 auto;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .grade-excellent { 
+            background: linear-gradient(135deg, #10b981, #059669); 
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+        .grade-good { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb); 
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+        .grade-fair { 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+        }
+        .grade-poor { 
+            background: linear-gradient(135deg, #ef4444, #dc2626); 
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #4338f5, #3730e1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #3730e1, #2d28b6);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(67, 56, 245, 0.4);
+        }
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-select {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .form-select option {
+            background: #0f1629;
+            color: white;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #ffffff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer-full {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            position:relative;
+            bottom:-10vh
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Header Image Section -->
+    <div class="header-image-placeholder w-full h-[50vh] flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+        <div class="relative z-10 text-center px-4">
+            <div class="text-6xl md:text-8xl mb-4">🧠✨📈</div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-200 via-white to-blue-200 bg-clip-text text-transparent">
+                Grasp Articulate Refine
+            </h1>
+            <p class="text-lg md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                Your smart study coach, powered by AI - designed to help you truly understand what you learn, 
+                speak it with confidence, and get thoughtful feedback so you grow smarter, faster.
+            </p>
+        </div>
+    </div>
+
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Setup Section -->
+            <div id="setupSection" class="glass-effect rounded-3xl p-8 md:p-12 mb-8 mt-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">
+                    Elevate your learning experience
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold mb-3 text-blue-200">Academic Level</label>
+                        <select id="academicLevel" class="form-select w-full p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Choose your level</option>
+                            <option value="High School">High School</option>
+                            <option value="Undergraduate">Undergraduate</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Professional">Professional</option>
+                        </select>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold mb-3 text-blue-200">Subject of Interest</label>
+                        <input type="text" id="subject" placeholder="e.g., Computer Science, AI, Digital Forensics, OS, OOPS,..." 
+                               class="form-input w-full p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold mb-3 text-blue-200">Learning Topic</label>
+                        <input type="text" id="topic" placeholder="e.g., Machine Learning, DNA Structure..." 
+                               class="form-input w-full p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div class="text-center mt-10">
+                    <button id="generateContent" class="btn-primary px-12 py-4 rounded-xl font-bold text-lg text-white disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="generateText">🚀 Generate Learning Content</span>
+                        <div id="generateSpinner" class="loading-spinner hidden inline-block ml-3"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div id="contentSection" class="hidden glass-effect rounded-3xl p-8 md:p-12 mb-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-300 to-blue-300 bg-clip-text text-transparent">Learning Content</h2>
+                    <button id="startTest" class="btn-secondary px-8 py-3 rounded-xl font-bold text-white">
+                        🎤 Start Voice Assessment
+                    </button>
+                </div>
+                
+                <div class="content-section">
+                    <div id="contentDisplay" class="prose prose-invert max-w-none text-blue-100"></div>
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-white/20">
+                    <h3 class="text-2xl font-bold mb-6 text-purple-300">📚 References & Resources</h3>
+                    <div id="referencesDisplay" class="grid md:grid-cols-2 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- Test Section -->
+            <div id="testSection" class="hidden glass-effect rounded-3xl p-8 md:p-12 mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">Voice Assessment</h2>
+                
+                <div class="text-center mb-8">
+                    <p class="text-xl text-blue-200 mb-6 leading-relaxed">
+                        🎯 Explain what you learned about the topic. Speak clearly and cover the main concepts.
+                    </p>
+                    
+                    <div class="flex justify-center space-x-6 mb-8">
+                        <button id="startRecording" class="btn-primary px-8 py-4 rounded-xl font-bold text-white">
+                            <i class="fas fa-microphone mr-3"></i>Start Recording
+                        </button>
+                        <button id="stopRecording" class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-xl font-bold text-white disabled:opacity-50 transition-all" disabled>
+                            <i class="fas fa-stop mr-3"></i>Stop Recording
+                        </button>
+                    </div>
+                    
+                    <div id="recordingStatus" class="hidden">
+                        <div class="pulse-recording inline-block">
+                            <i class="fas fa-microphone text-red-500 text-3xl"></i>
+                        </div>
+                        <p class="text-red-400 mt-3 text-lg">🔴 Recording in progress...</p>
+                    </div>
+                </div>
+                
+                <div id="transcriptionSection" class="hidden mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-green-300">Your Response:</h3>
+                    <div class="glass-card rounded-xl p-6">
+                        <p id="transcriptionText" class="text-blue-100 text-lg leading-relaxed"></p>
+                    </div>
+                    
+                    <div class="text-center mt-6">
+                        <button id="analyzeResponse" class="btn-primary px-10 py-4 rounded-xl font-bold text-lg text-white">
+                            <span id="analyzeText">🔍 Analyze My Response</span>
+                            <div id="analyzeSpinner" class="loading-spinner hidden inline-block ml-3"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-lg text-blue-300">
+                        Or prefer typing? 
+                        <button id="typeResponse" class="text-blue-400 hover:text-blue-300 underline ml-2 font-semibold">Click here to type</button>
+                    </p>
+                </div>
+                
+                <div id="typeSection" class="hidden mt-6">
+                    <textarea id="typedResponse" placeholder="Type your detailed explanation here..." 
+                              class="form-input w-full h-40 p-6 rounded-xl resize-none text-lg"></textarea>
+                    <div class="text-center mt-6">
+                        <button id="analyzeTyped" class="btn-primary px-10 py-4 rounded-xl font-bold text-lg text-white">
+                            🔍 Analyze My Response
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Section -->
+            <div id="analysisSection" class="hidden glass-effect rounded-3xl p-8 md:p-12 mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">Assessment Results</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-10">
+                    <div class="md:col-span-1 text-center">
+                        <div id="gradeCircle" class="grade-circle mb-6">
+                            <span id="gradeNumber" class="text-white">0/10</span>
+                        </div>
+                        <p id="gradeExplanation" class="text-blue-200 text-lg leading-relaxed"></p>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <div id="detailedFeedback" class="glass-card rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4 text-blue-300">💬 Detailed Feedback</h3>
+                            <p id="feedbackText" class="text-blue-100 text-lg leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="glass-card rounded-xl p-6">
+                        <h3 class="text-xl font-bold mb-4 text-green-400">✅ Strengths</h3>
+                        <ul id="strengthsList" class="space-y-3 text-blue-100"></ul>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h3 class="text-xl font-bold mb-4 text-yellow-400">⚠️ Areas for Improvement</h3>
+                        <ul id="improvementsList" class="space-y-3 text-blue-100"></ul>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="glass-card rounded-xl p-6">
+                        <h3 class="text-xl font-bold mb-4 text-red-400">❌ Incorrect Points</h3>
+                        <ul id="falsePointsList" class="space-y-3 text-blue-100"></ul>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6">
+                        <h3 class="text-xl font-bold mb-4 text-blue-400">📝 Missing Points</h3>
+                        <ul id="missingPointsList" class="space-y-3 text-blue-100"></ul>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div id="nextSteps" class="glass-card rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-bold mb-4 text-purple-300">🎯 Next Steps</h3>
+                        <p id="nextStepsText" class="text-blue-100 text-lg leading-relaxed"></p>
+                    </div>
+                    
+                    <div class="space-x-6">
+                        <button id="tryAgain" class="btn-secondary px-8 py-4 rounded-xl font-bold text-white">
+                            🔄 Try Again
+                        </button>
+                        <button id="newTopic" class="btn-primary px-8 py-4 rounded-xl font-bold text-white">
+                            🆕 New Topic
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contentSection" class="hidden glass-effect rounded-2xl p-6 md:p-8 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-semibold">Learning Content</h2>
+                    <button id="startTest" class="btn-secondary px-6 py-2 rounded-lg font-semibold text-white">
+                        Start Voice Test
+                    </button>
+                </div>
+                
+                <div class="content-section">
+                    <div id="contentDisplay" class="prose prose-invert max-w-none"></div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-white/20">
+                    <h3 class="text-xl font-semibold mb-4">📚 References</h3>
+                    <div id="referencesDisplay" class="grid md:grid-cols-2 gap-4"></div>
+                </div>
+            </div>
+
+            <div id="testSection" class="hidden glass-effect rounded-2xl p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-center">Voice Assessment</h2>
+                
+                <div class="text-center mb-6">
+                    <p class="text-lg text-blue-200 mb-4">
+                        Explain what you learned about the topic. Speak clearly and cover the main concepts.
+                    </p>
+                    
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <button id="startRecording" class="btn-primary px-6 py-3 rounded-lg font-semibold text-white">
+                            <i class="fas fa-microphone mr-2"></i>Start Recording
+                        </button>
+                        <button id="stopRecording" class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg font-semibold text-white disabled:opacity-50" disabled>
+                            <i class="fas fa-stop mr-2"></i>Stop Recording
+                        </button>
+                    </div>
+                    
+                    <div id="recordingStatus" class="hidden">
+                        <div class="pulse-recording inline-block">
+                            <i class="fas fa-microphone text-red-500 text-2xl"></i>
+                        </div>
+                        <p class="text-red-400 mt-2">Recording in progress...</p>
+                    </div>
+                </div>
+                
+                <div id="transcriptionSection" class="hidden mb-6">
+                    <h3 class="text-xl font-semibold mb-3">Your Response:</h3>
+                    <div class="glass-card rounded-lg p-4">
+                        <p id="transcriptionText" class="text-blue-100"></p>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button id="analyzeResponse" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white">
+                            <span id="analyzeText">Analyze My Response</span>
+                            <div id="analyzeSpinner" class="loading-spinner hidden inline-block ml-2"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-blue-300">
+                        Or type your response: 
+                        <button id="typeResponse" class="text-blue-400 hover:text-blue-300 underline ml-1">Click here</button>
+                    </p>
+                </div>
+                
+                <div id="typeSection" class="hidden mt-4">
+                    <textarea id="typedResponse" placeholder="Type your explanation here..." 
+                              class="w-full h-32 p-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                    <div class="text-center mt-4">
+                        <button id="analyzeTyped" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white">
+                            Analyze My Response
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analysisSection" class="hidden glass-effect rounded-2xl p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-center">Assessment Results</h2>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="md:col-span-1 text-center">
+                        <div id="gradeCircle" class="grade-circle mb-4">
+                            <span id="gradeNumber">0/10</span>
+                        </div>
+                        <p id="gradeExplanation" class="text-sm text-blue-200"></p>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <div id="detailedFeedback" class="glass-card rounded-lg p-4 mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Detailed Feedback</h3>
+                            <p id="feedbackText" class="text-blue-100"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="glass-card rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3 text-green-400">✅ Strengths</h3>
+                        <ul id="strengthsList" class="space-y-2 text-blue-100"></ul>
+                    </div>
+                    
+                    <div class="glass-card rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3 text-yellow-400">⚠️ Areas for Improvement</h3>
+                        <ul id="improvementsList" class="space-y-2 text-blue-100"></ul>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="glass-card rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3 text-red-400">❌ Incorrect Points</h3>
+                        <ul id="falsePointsList" class="space-y-2 text-blue-100"></ul>
+                    </div>
+                    
+                    <div class="glass-card rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3 text-blue-400">📝 Missing Points</h3>
+                        <ul id="missingPointsList" class="space-y-2 text-blue-100"></ul>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div id="nextSteps" class="glass-card rounded-lg p-4 mb-6">
+                        <h3 class="text-lg font-semibold mb-2">Next Steps</h3>
+                        <p id="nextStepsText" class="text-blue-100"></p>
+                    </div>
+                    
+                    <div class="space-x-4">
+                        <button id="tryAgain" class="btn-secondary px-6 py-3 rounded-lg font-semibold text-white">
+                            Try Again
+                        </button>
+                        <button id="newTopic" class="btn-primary px-6 py-3 rounded-lg font-semibold text-white">
+                            New Topic
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer-full bg-gradient-to-r from-navy-950 via-blue-950 to-navy-950 py-8 mt-16">
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-white">Made with ❤️ by <a href="https://x.com/MysteryChaoskin">Divya</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="celebrationOverlay" class="celebration-overlay hidden">
+        <div class="celebration-content">
+            <div class="text-8xl mb-6" id="celebrationEmojis">🥳🎉🎊</div>
+            <h2 class="text-4xl font-bold mb-4" id="celebrationMessage">Excellent Work!</h2>
+            <p class="text-xl">You can move on to the next topic!</p>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
